@@ -132,7 +132,7 @@ fracPu241 = 0.05
 fracU238Ncapture = 0.6
 
 def normU235(norm=1):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVU235.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -149,7 +149,7 @@ def normU235(norm=1):
     return int
 
 def normU238(norm=1):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVU238.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -166,7 +166,7 @@ def normU238(norm=1):
     return int
 
 def normPu239(norm=1):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVPu239.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -183,7 +183,7 @@ def normPu239(norm=1):
     return int
 
 def normPu241(norm=1):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVPu241.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -200,7 +200,7 @@ def normPu241(norm=1):
     return int
 
 def normU238Ncap(norm=1):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVU238Ncapture.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -229,7 +229,7 @@ intnormU238Ncap = normU238Ncap()
 'MVHE - flux per isotope'
 
 def fluxU235(E, norm=1.):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVU235.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -248,7 +248,7 @@ def fluxU235(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxU238(E, norm=1.):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVU238.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -267,7 +267,7 @@ def fluxU238(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxPu239(E, norm=1.):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVPu239.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -286,7 +286,7 @@ def fluxPu239(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxPu241(E, norm=1.):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVPu241.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -305,7 +305,7 @@ def fluxPu241(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxU238Ncap(E, norm=1.):
-    file = open("/scratch/llarizgoitia/Reactor/spectraMeVU238Ncapture.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
     lines=file.readlines()
     Enu=[]
     rho=[]
@@ -524,7 +524,7 @@ def QF(E, aa=1.):
     return y # fractional QF
 
 def dQdEI(E, aa=1.):
-    file = open("/scratch/llarizgoitia/Reactor/QF_Fef_YBe.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     lines=file.readlines()
     Tnr=[]
     QF=[]
@@ -560,7 +560,7 @@ def dQdEI(E, aa=1.):
     return y
 
 def fncEee_QF(E, aa=1.):
-    file = open("/scratch/llarizgoitia/Reactor/QF_Fef_YBe.txt", "r")
+    file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     lines=file.readlines()
     Tnr=[]
     QF=[]
@@ -588,7 +588,7 @@ def fncEee_QF(E, aa=1.):
 "MAIN PART"
 print(' ')
 
-file = open("/scratch/llarizgoitia/Reactor/data_release.txt", "r")
+file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/data_release.txt", "r")
 lines=file.readlines()
 E_ion=[] # bin center energy
 counts_ON=[] # counts/10 eV·3 kg·day for 96.4 days of Rx- ON operation.
