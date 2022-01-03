@@ -132,7 +132,7 @@ fracPu241 = 0.05
 fracU238Ncapture = 0.6
 
 def normU235(norm=1):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -150,7 +150,7 @@ def normU235(norm=1):
     return int
 
 def normU238(norm=1):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -168,7 +168,7 @@ def normU238(norm=1):
     return int
 
 def normPu239(norm=1):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -186,7 +186,7 @@ def normPu239(norm=1):
     return int
 
 def normPu241(norm=1):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -204,7 +204,7 @@ def normPu241(norm=1):
     return int
 
 def normU238Ncap(norm=1):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -234,7 +234,7 @@ intnormU238Ncap = normU238Ncap()
 'MVHE - flux per isotope'
 
 def fluxU235(E, norm=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU235.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -254,7 +254,7 @@ def fluxU235(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxU238(E, norm=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -274,7 +274,7 @@ def fluxU238(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxPu239(E, norm=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu239.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -294,7 +294,7 @@ def fluxPu239(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxPu241(E, norm=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVPu241.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -314,7 +314,7 @@ def fluxPu241(E, norm=1.):
     return y # ve MeV^-1 fission^-1
 
 def fluxU238Ncap(E, norm=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/spectraMeVU238Ncapture.txt", "r")
     lines=file.readlines()
     Enu=[]
@@ -509,7 +509,8 @@ def D(xlist,ylist):
 
 "Iron filter - Fef model"
 def QF(E, aa=1.):
-    file = open("QF_Fef_YBe.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
+    #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     lines=file.readlines()
     Enr=[]
     QF=[]
@@ -534,7 +535,7 @@ def QF(E, aa=1.):
     return y # fractional QF
 
 def dQdEI(E, aa=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     lines=file.readlines()
     Tnr=[]
@@ -571,7 +572,7 @@ def dQdEI(E, aa=1.):
     return y
 
 def fncEee_QF(E, aa=1.):
-    file = open("/scratch/franmon/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
+    file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/QF_Fef_YBe.txt", "r")
     lines=file.readlines()
     Tnr=[]
@@ -600,7 +601,7 @@ def fncEee_QF(E, aa=1.):
 "MAIN PART"
 print(' ')
 
-file = open("/scratch/franmon/Reactor_CEnuNS/SM/data_release.txt", "r")
+file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/data_release.txt", "r")
 #file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/data_release.txt", "r")
 lines=file.readlines()
 E_ion=[] # bin center energy
@@ -789,7 +790,7 @@ print('Total number of expected events SM above 0.2keVee: ', sum(n_signal))
 
 
 
-txt_file = open("/scratch/franmon/Reactor_CEnuNS/SM/Counts_MVHE_Fef_SM.txt", "w")
+txt_file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/Counts_MVHE_Fef_SM.txt", "w")
 #txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/Counts_MVHE_Fef_SM.txt", "w")
 for aa in range(0,len(centre)):
     a_obs = centre[aa]
@@ -1051,7 +1052,7 @@ wM_ML = sigma_n #* a_res_ML
 
 fitcurve_ON = fnc_fitON(E_ion, parL1_ML, aM_prior_ML, parexp_ML, wM_ML,  eventsNSI)
 
-txt_file = open("/scratch/franmon/Reactor_CEnuNS/SM/MHVE_Fef_SM_mparams90cl.txt", "w")
+txt_file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/MHVE_Fef_SM_mparams90cl.txt", "w")
 #txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/MHVE_Fef_SM_mparams90cl.txt", "w")
 
 content = str(m.params)
@@ -1061,7 +1062,7 @@ txt_file.close()
 
 chisqndf = fcn_np(m.values) / (len(centre)-7)
 
-txt_file = open("/scratch/franmon/Reactor_CEnuNS/SM/MHVE_Fef_SM_chisq90cl.txt", "w")
+txt_file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/MHVE_Fef_SM_chisq90cl.txt", "w")
 #txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/MHVE_Fef_SM_chisq90cl.txt", "w")
 for i in range(0,len(m.values)):
     content = str(m.values[i])
@@ -1071,7 +1072,7 @@ txt_file.write('chi2'+' '+str(fcn_np(m.values)))
 
 txt_file.close()
 
-txt_file = open("/scratch/franmon/Reactor_CEnuNS/SM/MHVE_Fef_SM_fit90cl.txt", "w")
+txt_file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/MHVE_Fef_SM_fit90cl.txt", "w")
 #txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/MHVE_Fef_SM_fit90cl.txt", "w")
 for aa in range(0,len(E_ion)):
     a_obs = E_ion[aa]
@@ -1081,7 +1082,7 @@ for aa in range(0,len(E_ion)):
 txt_file.close()
 
 
-txt_file = open("/scratch/franmon/Reactor_CEnuNS/SM/MHVE_Fef_SM_events90cl.txt", "w")
+txt_file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/MHVE_Fef_SM_events90cl.txt", "w")
 #txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/MHVE_Fef_SM_events90cl.txt", "w")
 for aa in range(0,len(E_ion)):
     a_obs = E_ion[aa]
