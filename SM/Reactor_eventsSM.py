@@ -29,7 +29,7 @@ from scipy.special import gamma, factorial
 import statistics
 #from scipy.optimize import curve_fit
 #from scipy.stats import poisson
-f#rom scipy.special import gammaln # x! = Gamma(x+1)
+#from scipy.special import gammaln # x! = Gamma(x+1)
 #from time import time
 
 from derivative import dxdt
