@@ -34,7 +34,7 @@ from time import time
 
 from derivative import dxdt
 
-from statsmodels.base.model import GenericLikelihoodModel
+#from statsmodels.base.model import GenericLikelihoodModel
 from iminuit import Minuit
 
 "Constants"
@@ -617,76 +617,6 @@ for x in lines:
     counts_OFF_err.append(float(x.split(' ')[4]))
 file.close()
 
-
-"dNdT"
-
-def fnc_dNdx_MHVE_Fef():
-    Eee_QF = []
-    dNdxQF = []
-
-    events_interval_obs= []
-
-    dNdT_res= []
-
-    dNdT_res_obs=[]
-    Eee_obs= []
-
-    nsteps = 1000
-
-    Eee_thres = 1e-9
-    Eee_max = 0.8
-
-    for i in range(0,nsteps+1):
-        x = Eee_thres + (Eee_max - Eee_thres)/nsteps * i
-        t = fncEee_QF(x)
-        Eee_QF.append(x)
-        dNdxQF.append(normalization *(differential_events_flux_MHVE(t,N, M)) * 1 / QF(t) * (1- x/QF(t) * dQdEI(x)))
-
-    'proved QF and NOQF same result'
-
-    "Sample T -> Tobs , in the way we want"
-    nsteps_obs=100
-
-    binss , centre = binning(0.0, Eee_max) #Eee_thres
-
-    x1 = - float('inf')
-    x2 = float('inf')
-
-    tbin=[]
-    centrebin=[]
-    for j in range(0,len(binss)-1):
-        for i in range(0,nsteps_obs):
-            t2 = binss[j+1]
-            t1 = binss[j]
-            tbin.append(t1 + (t2-t1)/nsteps_obs *i)
-
-        c = centre[j] #(tbin[0] + tbin[len(tbin)-1] )/2
-        centrebin.append(c)
-        for tobs in tbin: #T observed
-            for i in range(0,len(Eee_QF)):
-                sigma = E_resolution(Eee_QF[i], 1.) #sigma0e * np.sqrt(tobs/Eee_thres)
-
-                var2 = ((Eee_QF[i] - x2) / (np.sqrt(2) * sigma))
-                A2 = np.sqrt(np.pi / 2) * (-sigma) * math.erf(var2)
-                var1 = ((Eee_QF[i] - x1) / (np.sqrt(2) * sigma))
-                A1 = np.sqrt(np.pi / 2) * (-sigma) * math.erf(var1)
-                A = 1/ (A2 - A1)
-
-                gauss_res = A * np.exp(-(Eee_QF[i]-tobs)**2 / (2*sigma**2))
-                dNdT_res.append(gauss_res * dNdxQF[i])
-
-            dNdT_res_obs.append(np.trapz(dNdT_res, x=Eee_QF))
-            Eee_obs.append(tobs)
-            dNdT_res.clear()
-
-        #events_interval_obs.append(np.trapz(dNdT_res_obs, x=tbin))
-        #dNdT_res_obs.clear()
-        tbin.clear()
-
-    return Eee_obs,dNdT_res_obs
-
-
-E_MHVE_Fef, dNdx_MHVE_Fef = fnc_dNdx_MHVE_Fef()
 
 "SM prediction"
 
