@@ -27,10 +27,10 @@ from scipy import special
 from scipy.special import gamma, factorial
 #import matplotlib.mlab as mlab
 import statistics
-from scipy.optimize import curve_fit
-from scipy.stats import poisson
-from scipy.special import gammaln # x! = Gamma(x+1)
-from time import time
+#from scipy.optimize import curve_fit
+#from scipy.stats import poisson
+f#rom scipy.special import gammaln # x! = Gamma(x+1)
+#from time import time
 
 from derivative import dxdt
 
