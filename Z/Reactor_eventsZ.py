@@ -395,25 +395,25 @@ def cross_section_mu(T,Enu, mu_muB2=0.): #mu_muB = mu / muB
     dsigmadT = cross_section_SM(T,Enu)  + new
     return dsigmadT
 
-def cross_section_Z(T,Enu, gz2=0., mz2=0.):
+
+def cross_section_Z(T,Enu, gz2=0, mz2=0):
     gvn = - 1/2
     gvp = 1/2 - 2*sin_theta_w_square
-    Qw2_SM = 4 * (Z*(gvp) + N*(gvn))**2
-    Qw = np.sqrt(Qw2_SM)
-    #Qz= 3* A * gz
-
-    Gz = 1 - ((3 * A * gz2) * (hbar_c_ke)**3 / (Qw * np.pi(2) * Gf * (2*M*T + mz2) ) )
+    Qw= 2*(Z*(gvp) + N*(gvn))
+    Gz = 1 - ((3 * np.sqrt(2) * (A) * gz2) * (hbar_c_ke)**3 / (Qw  * Gf * (2*M*T + mz2) ) )
 
     dsigmadT = cross_section_SM(T,Enu) * (Gz)**2
     return dsigmadT
 
-def cross_section_scalar(T,Enu, Qphi2=0.,mphi2=0.):
-    Qphi2 = (gphi**2 * (14*N + 15.1*Z))**2
-
-    new = Qphi2 * M**2 * T * (hbar_c_ke)**2 / (4*np.pi * (Enu*1e3)**2 *(2*M*T + mphi2)**2)
+def cross_section_scalar(T,Enu, gphi2=0,mphi2=0):
+    Q2= 2 *Enu**2 * M * T *1e-6 /(Enu**2 - Enu*T*1e-3) #MeV ^2
+    Qphi2 = (gphi2 * (14*N + 15.1*Z))**2
+    new = Qphi2 * M**2 * T *  (F(Q2,A))**2  * (hbar_c_ke)**2 / (4*np.pi * (Enu*1e3)**2 *(2*M*T + mphi2)**2)
 
     dsigmadT = cross_section_SM(T,Enu) + new
     return dsigmadT
+
+
 
 " dN /dT "
 
@@ -441,7 +441,7 @@ def differential_events_flux_mu(T, mu2=0.):
 
     return (np.trapz(iint, x=EE))
 
-def differential_events_flux_Z(T, gz2=0., mz2=0.):
+def differential_events_flux_Z(T, gz2=0, mz2=0):
     nsteps = 50
     iint=  np.zeros((nsteps+1),float)
     EE = np.zeros((nsteps+1),float)
@@ -453,7 +453,7 @@ def differential_events_flux_Z(T, gz2=0., mz2=0.):
 
     return (np.trapz(iint, x=EE))
 
-def differential_events_flux_scalar(T,Qphi2=0.,mphi2=0.):
+def differential_events_flux_scalar(T,gphi2=0,mphi2=0):
     nsteps = 50
     iint=  np.zeros((nsteps+1),float)
     EE = np.zeros((nsteps+1),float)
@@ -461,9 +461,10 @@ def differential_events_flux_scalar(T,Qphi2=0.,mphi2=0.):
     Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
     for i in range (0,nsteps+1):
         EE[i] = Emin + (Enu_max - Emin)/nsteps * i
-        iint[i] = cross_section_Z(T,EE[i],Qphi2,mphi2) * flux_total(EE[i])
+        iint[i] = cross_section_scalar(T,EE[i],gphi2,mphi2) * flux_total(EE[i])
 
     return (np.trapz(iint, x=EE))
+
 
 def differential_events_identifier(T, mu2=0., gz2=0., mz2=0., Qphi2=0.,mphi2=0.):
     if mu2==0. and gz2== 0. and mz2==0. and Qphi2==0. and mphi2==0.:
