@@ -603,6 +603,7 @@ print(' ')
 
 #file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/data_release.txt", "r")
 file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SM/data_release.txt", "r")
+
 lines=file.readlines()
 E_ion=[] # bin center energy
 counts_ON=[] # counts/10 eV·3 kg·day for 96.4 days of Rx- ON operation.
