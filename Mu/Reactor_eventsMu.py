@@ -698,7 +698,7 @@ def fnc_events_MHVE_Fef(parsys=[1.,1.],mu2=0.):
 
 
 
-centre, events_MHVE_Fef = fnc_events_MHVE_Fef(parsys=[1.,1.],0.)
+centre, events_MHVE_Fef = fnc_events_MHVE_Fef([1.,1.],0.)
 
 #centreYBe, events_MHVE_YBe = fnc_events_MHVE_YBe()
 
