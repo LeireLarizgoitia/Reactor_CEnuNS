@@ -720,7 +720,7 @@ print('Total number of expected events SM above 0.2keVee: ', sum(n_signal))
 
 
 
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/Counts_MVHE_Fef_mu.txt", "w")
+txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/Counts_MVHE_Fef_MuSM.txt", "w")
 for aa in range(0,len(centre)):
     a_obs = centre[aa]
     e_obs = events_MHVE_Fef[aa]
@@ -944,7 +944,7 @@ aM_prior_err = m.errors[6]
 
 amu2_err = m.merrors[7]
 
-print(amu_err)
+print(amu2_err)
 
 #a_norm_err = m.errors[8]
 #a_res_err = m.errors[9]
