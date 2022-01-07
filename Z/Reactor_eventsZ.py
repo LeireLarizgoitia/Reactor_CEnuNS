@@ -778,8 +778,8 @@ def fcn_np(par):
     centre, events_NOQw = fnc_events_MHVE_Fef(par_sys,par_Z2[0],par_Z2[1])
 
     events = []
-    for i in range(0,len(events_MHVE_Fef)):
-        events.append(events_MHVE_Fef[i]*norm_sys)  #events_NOQw
+    for i in range(0,len(events_NOQw)):
+        events.append(events_NOQw[i]*norm_sys)  #events_NOQw
 
     mu_est = []
     mu_est =fnc_fitON(E_ion,par_L1, aM_prior, par_exp, wM, events)
@@ -950,7 +950,7 @@ for i in range(0,len(m.values)):
     content = str(m.values[i])
     txt_file.write("".join(content) + "\n")
 txt_file.write('chi2ndf'+' '+str(chisqndf))
-txt_file.write('chi2'+' '+str(fcn_np(m.values)))
+txt_file.write(' '+'chi2'+' '+str(fcn_np(m.values)))
 
 txt_file.close()
 
