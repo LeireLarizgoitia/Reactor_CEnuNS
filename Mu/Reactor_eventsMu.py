@@ -1009,6 +1009,7 @@ for aa in range(0,len(E_ion)):
     txt_file.write("".join(content) + "\n")
 txt_file.close()
 
+"""
 'mu. Delta chi2 analysis'
 mu_low_scan = 0.0
 mu_up_scan = 1e-4
@@ -1050,3 +1051,4 @@ for aa in range(0,len(mu_chi)):
     content = str(a_obs)+' '+ str(e_obs)
     txt_file.write("".join(content) + "\n")
 txt_file.close()
+"""
