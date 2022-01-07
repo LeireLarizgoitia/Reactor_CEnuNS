@@ -697,39 +697,6 @@ def fnc_events_MHVE_Fef(parsys=[1.,1.],mu2=0.):
     return Eion_bin,events_NOQw
 
 
-
-centre, events_MHVE_Fef = fnc_events_MHVE_Fef([1.,1.],0.)
-
-#centreYBe, events_MHVE_YBe = fnc_events_MHVE_YBe()
-
-#centre, events_MHVE_Lindhard = fnc_events_MHVE_Lindhard()
-
-n_signal=[]
-for i in range(0,len(events_MHVE_Fef)):
-    n_signal.append(events_MHVE_Fef[i])
-
-sum_nobs = sum(n_signal)
-
-print('Total number of expected events SM above 0.2keVee: ', sum(n_signal))
-
-#n_signalYBe=[]
-
-#for i in range(0,len(events_MHVE_YBe)):
-#    n_signalYBe.append(events_MHVE_YBe[i]*Qw2_SM)
-
-
-
-
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/Counts_MVHE_Fef_MuSM.txt", "w")
-for aa in range(0,len(centre)):
-    a_obs = centre[aa]
-    e_obs = events_MHVE_Fef[aa]
-    content = str(a_obs)+' '+ str(e_obs)
-    txt_file.write("".join(content) + "\n")
-
-txt_file.close()
-
-
 "Using MINUIT"
 
 def gaussian(x, height, center, width, offset):
@@ -864,154 +831,9 @@ start_1 = 1.
 
 sigma_n = 68.5e-3 #keV intrinsic noise
 
-'Observed data for reactor ON'
-n_obs = counts_ON
-
-fcn_np.errordef = 1. #Minuit.LIKELIHOOD
-
-#print(describe(fcn_np_nosyst_NSI))
-
-m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,0.) ,
-           name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_mu2')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
-
-m.limits['hL1'] = (75.0,150)
-m.limits['cL1'] = (0.5,1.5)
-m.limits['wL1'] = (0.0,4)
-m.limits['An'] = (0.0,None)
-m.limits['Bn'] = (0.0,None)
-m.limits['Cn'] = (0.0,None)
-m.limits['aM_prior'] = (0.0,1.5)
-
-m.limits['a_mu2'] = (0.0,1.)
-
-#m.fixed['a_mu'] = True
-
-#m.limits['a_norm'] = (0.0,5)
-#m.limits['a_res'] = (0.0,None)
-#m.limits['a_QF'] = (0.1,None)
-
-#m.fixed['a_norm'] = True
-#m.fixed['a_res'] = True
-#m.fixed['a_QF'] = True
-
-print('MIGRAD Run')
-#print(m.migrad() )  # run optimiser
-
-resum = m.simplex().migrad() #m.migrad()
-
-#print(resum)
-
-print(' ')
-print('MINOS Run')
-# Run MINOS to compute asymmetric confidence intervals.
-resume_minos = m.minos(cl = 0.9) #cl = 0.9
-#print(resume_minos)
-print('Valid: ', m.valid)
-#print(repr(m.params)) # parameter info
-#print(m.errors) #symmetric uncertainties
-
-
-'Optimal parameters'
-hL1_ML = m.values[0]
-cL1_ML = m.values[1]
-wL1_ML = m.values[2]
-An_ML = m.values[3]
-Bn_ML = m.values[4]
-Cn_ML = m.values[5]
-
-aM_prior_ML = m.values[6]
-
-parL1_ML = [hL1_ML, cL1_ML, wL1_ML]
-parexp_ML = [An_ML, Bn_ML, Cn_ML]
-
-amu2_ML = m.values[7]
-
-'systematics'
-#a_norm_ML = m.values[8]
-#a_res_ML = m.values[9]
-#a_QF_ML = m.values[10]
-
-#par_sys_ML = [a_res_ML,a_QF_ML]
-
-'Minos errors'
-hL1_err = m.errors[0]
-cL1_err = m.errors[1]
-wL1_err = m.errors[2]
-An_err = m.errors[3]
-Bn_err = m.errors[4]
-Cn_err = m.errors[5]
-aM_prior_err = m.errors[6]
-
-amu2_err = m.merrors[7]
-
-print(amu2_err)
-
-#a_norm_err = m.errors[8]
-#a_res_err = m.errors[9]
-#a_QF_err = m.errors[10]
-
-print(m.params)
-print(m.errors)
-
-print(m.values)
-
-chisq_ML = fcn_np(m.values)
-chisqndf = fcn_np(m.values) / (len(centre)-len(m.params))
-print('chi2/ndf  min: ' , chisqndf)
-
-
-'Minuit_ML'
-
-centre_mu, events_mu= fnc_events_MHVE_Fef([1.,1.],amu2_ML)
-
-#events_mu = []
-
-#for i in range(0,len(events_NOQw)):
-#        events_mu.append(events_NOQw[i]) #*a_norm_ML
-
-wM_ML = sigma_n #* a_res_ML
-
-fitcurve_ON = fnc_fitON(E_ion, parL1_ML, aM_prior_ML, parexp_ML, wM_ML,  events_mu)
-
-#txt_file = open("/scratch/franmon/Leire/Reactor_CEnuNS/SM/MHVE_Fef_SM_mparams90cl.txt", "w")
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/MHVE_Fef_Mu_mparams90cl.txt", "w")
-
-content = str(m.params)
-txt_file.write("".join(content) + "\n")
-
-txt_file.close()
-
-chisqndf = fcn_np(m.values) / (len(centre)-len(m.params))
-
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/MHVE_Fef_Mu_chisq90cl.txt", "w")
-for i in range(0,len(m.values)):
-    content = str(m.values[i])
-    txt_file.write("".join(content) + "\n")
-txt_file.write('chi2ndf'+' '+str(chisqndf))
-txt_file.write(' '+'chi2'+' '+str(fcn_np(m.values)))
-
-txt_file.close()
-
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/MHVE_Fef_Mu_fit90cl.txt", "w")
-for aa in range(0,len(E_ion)):
-    a_obs = E_ion[aa]
-    e_obs = fitcurve_ON[aa]
-    content = str(a_obs)+' '+ str(e_obs)
-    txt_file.write("".join(content) + "\n")
-txt_file.close()
-
-
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Mu/MHVE_Fef_Mu_events90cl.txt", "w")
-for aa in range(0,len(E_ion)):
-    a_obs = E_ion[aa]
-    e_obs = events_mu[aa]
-    content = str(a_obs)+' '+ str(e_obs)
-    txt_file.write("".join(content) + "\n")
-txt_file.close()
-
 'mu. Delta chi2 analysis'
 mu_low_scan = 0.0
-mu_up_scan = 1e-6
+mu_up_scan = 1e-4
 
 mu_chi=[]
 deltachisq=[]
@@ -1039,7 +861,7 @@ for i in range(0,nscan): #range of scan
 
     #resume_minos = m.minos(cl = 0.9)
 
-    deltachisq.append(fcn_np(m.values) - chisq_ML)
+    deltachisq.append(fcn_np(m.values) - 103.77108198802593)
 
     #print(m.params)
 
