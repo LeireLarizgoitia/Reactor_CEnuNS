@@ -743,11 +743,11 @@ def fcn_np(par):
     'Intrinsic resolution changes'
     wM = sigma_n * par_sys[1]
 
-    centre, events_NOQw = fnc_events_MHVE_Fef(par_sys,par_mu_muB2)
+    centre, events = fnc_events_MHVE_Fef(par_sys,par_mu_muB2)
 
-    events = []
-    for i in range(0,len(events_MHVE_Fef)):
-        events.append(events_MHVE_Fef[i]*norm_sys)  #events_NOQw
+    #events = []
+    #for i in range(0,len(events_NOQw)):
+    #    events.append(events_NOQw[i]*norm_sys)  #events_NOQw
 
     mu_est = []
     mu_est =fnc_fitON(E_ion,par_L1, aM_prior, par_exp, wM, events)
