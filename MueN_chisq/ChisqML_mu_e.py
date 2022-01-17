@@ -913,10 +913,10 @@ chisq_ML = fcn_np(m.values)
 chisqndf = fcn_np(m.values) / (130-len(m.params))
 print('chi2/ndf  min: ' , chisqndf)
 
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN/chisq_ML_e.txt', np.c_[chisq_ML,chisqndf])
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN/MLvalues_e.txt', np.c_[m.values])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_e.txt', np.c_[chisq_ML,chisqndf])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_e.txt', np.c_[m.values])
 
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN/MHVE_Fef_mue_mparams.txt", "w")
+txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_mparams.txt", "w")
 content = str(m.params)
 txt_file.write("".join(content) + "\n")
 txt_file.close()
@@ -955,8 +955,8 @@ for i in range(0,nscan): #range of scan
 
     print(i,mu_chi[i],deltachisq[i])
 
-    np.savetxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN/MHVE_Fef_mue_Deltachi2mu_"+str(i)+".txt", np.c_[mu_chi,deltachisq])
+    np.savetxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_Deltachi2mu_"+str(i)+".txt", np.c_[mu_chi,deltachisq])
 
     #print(m.params)
 
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN/MHVE_Fef_mue_Deltachi2.txt', np.c_[mu_chi,deltachisq])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_Deltachi2.txt', np.c_[mu_chi,deltachisq])
