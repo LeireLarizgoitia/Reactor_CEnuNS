@@ -867,7 +867,7 @@ fcn_np.errordef = 1. #Minuit.LIKELIHOOD
 
 #print(describe(fcn_np_nosyst_NSI))
 
-m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,0.) ,
+m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,0.,0.) ,
            name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_g','a_m')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
 
 m.limits['hL1'] = (75.0,150)
