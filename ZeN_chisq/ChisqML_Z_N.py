@@ -369,17 +369,17 @@ def cross_section_SM_e(Te,Enu):
     return dsigmadT
 
 'mu'
-def cross_section_muN(T, Enu, mu_muB): #mu_muB = mu / muB
+def cross_section_muN(T, Enu, mu_muB2): #mu_muB = mu / muB
     Q2= 2 *Enu**2 * M * T *1e-6 /(Enu**2 - Enu*T*1e-3) #MeV ^2
     Fem = 1. #Fem(Q2) electromagnetic form factor approximated to 1
     #new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/T - 1/(Enu*1e3) + T/(4*Enu**2)*1e-6) * Z**2 * (F(Q2,A))**2 * mu_muB2
-    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/T - 1/(Enu*1e3)) * Z**2 * (F(Q2,A))**2 * mu_muB**2
+    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/T - 1/(Enu*1e3)) * Z**2 * (F(Q2,A))**2 * mu_muB2
     dsigmadT = new
     return dsigmadT
 
-def cross_section_mue(Te,Enu, mu_muB): # T = Ei
+def cross_section_mue(Te,Enu, mu_muB2): # T = Ei
     #new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/T - 1/(Enu*1e3) + T/(4*Enu**2)*1e-6) * Zeff * mu_muB2
-    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/Te - 1/(Enu*1e3)) * Z_eff(Te) * mu_muB2**2
+    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/Te - 1/(Enu*1e3)) * Z_eff(Te) * mu_muB2
     dsigmadT = new
     return dsigmadT
 
@@ -448,41 +448,41 @@ def differential_events_flux_SMe(T):
     return (integrate.simpson(iint,EE))
 
 'mu'
-def differential_events_flux_muN(T, mu=0.):
+def differential_events_flux_muN(T, mu2=0.):
     nsteps = 100
     Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append(cross_section_muN(T,EE[i],mu) * flux_total(EE[i]))
+        iint.append(cross_section_muN(T,EE[i],mu2) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
-def differential_events_flux_mue(T,mu=0.):
+def differential_events_flux_mue(T,mu2=0.):
     nsteps = 1000
     Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append( cross_section_mue(T,EE[i],mu)  * flux_total(EE[i]))
+        iint.append( cross_section_mue(T,EE[i],mu2)  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 'SM + mu'
-def differential_events_flux_SMmuN(T, mu=0.):
+def differential_events_flux_SMmuN(T, mu2=0.):
     nsteps = 100
     Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append((cross_section_SM_N(T,EE[i])+cross_section_muN(T,EE[i],mu)) * flux_total(EE[i]))
+        iint.append((cross_section_SM_N(T,EE[i])+cross_section_muN(T,EE[i],mu2)) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
-def differential_events_flux_SMmue(T,mu=0.):
+def differential_events_flux_SMmue(T,mu2=0.):
     nsteps = 1000
     Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append((cross_section_SM_e(T,EE[i]) + cross_section_mue(T,EE[i],mu))  * flux_total(EE[i]))
+        iint.append((cross_section_SM_e(T,EE[i]) + cross_section_mue(T,EE[i],mu2))  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 'Scalar'
@@ -565,7 +565,6 @@ def differential_events_flux_SMZe(T, gz=0 ,mz=0):
     for i in range (0,nsteps):
         iint.append((cross_section_SM_e(T,EE[i]) + cross_section_Ze(T,EE[i],gz,mz) ) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
-
 
 "Binning"
 "Bins of 10eV"
@@ -710,9 +709,9 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
             #dNdx.append(normalization *(differential_events_flux_muN(tnr, gg)))
             #dNdx.append(normalization *(differential_events_flux_ZN(tnr, gg,mm)))
             'SM + BSM'
-            dNdx.append(normalization *(differential_events_flux_SMmuN(tnr, gg)))
+            #dNdx.append(normalization *(differential_events_flux_SMmuN(tnr, gg)))
             #dNdx.append(normalization *(differential_events_flux_SMsN(tnr, gg,mm)))
-            #dNdx.append(normalization *(differential_events_flux_SMZN(tnr, gg,mm)))
+            dNdx.append(normalization *(differential_events_flux_SMZN(tnr, gg,mm)))
     elif pp==1:
         T_max = 15*Edet_max #2*(Enu_max*1e3)**2/(me*1e3)
         Ei = np.linspace(Eee_thres, T_max, num=5000, endpoint=True, dtype=float)
@@ -722,9 +721,9 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
             #dNdx.append(normalization *(differential_events_flux_mue(x, gg)))
             #dNdx.append(normalization *(differential_events_flux_Ze(x, gg,mm)))
             'SM + BSM'
-            dNdx.append(normalization *(differential_events_flux_SMmue(x, gg)))
+            #dNdx.append(normalization *(differential_events_flux_SMmue(x, gg)))
             #dNdx.append(normalization *(differential_events_flux_SMse(x, gg,mm)))
-            #dNdx.append(normalization *(differential_events_flux_SMZe(x, gg,mm)))
+            dNdx.append(normalization *(differential_events_flux_SMZe(x, gg,mm)))
     else:
         print('no particle identified')
         exit()
@@ -809,9 +808,6 @@ def fcn_np(par):
     par_exp = [par[3],par[4],par[5]]
     aM_prior = par[6]
 
-    'mu'
-    par_mu_muB = par[7]
-
     'Systematics in signal'
     norm_sys = 1. #par[8]
     par_sys = [1.] #[par[9],par[10]]
@@ -819,10 +815,10 @@ def fcn_np(par):
     'Intrinsic resolution changes'
     wM = sigma_n
 
-    pp = 1 # e
+    pp = 0 # N
     ind = 0 #Fef
 
-    centre, events = fnc_events_MHVE(pp, ind, par_mu_muB)
+    centre, events = fnc_events_MHVE(pp, ind, par[7],par[8])
 
     #events = []
     #for i in range(0,len(events_NOQw)):
@@ -872,7 +868,7 @@ fcn_np.errordef = 1. #Minuit.LIKELIHOOD
 #print(describe(fcn_np_nosyst_NSI))
 
 m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,0.) ,
-           name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_mu')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
+           name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_g','a_m')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
 
 m.limits['hL1'] = (75.0,150)
 m.limits['cL1'] = (0.5,1.5)
@@ -882,7 +878,8 @@ m.limits['Bn'] = (0.0,None)
 m.limits['Cn'] = (0.0,None)
 m.limits['aM_prior'] = (0.0,1.5)
 
-m.limits['a_mu'] = (1e-12,1e-9)
+m.limits['a_g'] = (1e-7,1e-4)
+m.limits['a_m'] = (1e-1,1e6)
 
 #m.fixed['a_mu'] = True
 
@@ -914,7 +911,8 @@ aM_prior_ML = m.values[6]
 parL1_ML = [hL1_ML, cL1_ML, wL1_ML]
 parexp_ML = [An_ML, Bn_ML, Cn_ML]
 
-amu_ML = m.values[7]
+ag_ML = m.values[7]
+am_ML = m.values[8]
 
 print(m.params)
 
@@ -922,10 +920,10 @@ chisq_ML = fcn_np(m.values)
 chisqndf = fcn_np(m.values) / (130-len(m.params))
 print('chi2/ndf  min: ' , chisqndf)
 
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_e.txt', np.c_[chisq_ML,chisqndf])
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_e.txt', np.c_[m.values])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/chisq_ML_N.txt', np.c_[chisq_ML,chisqndf])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/MLvalues_N.txt', np.c_[m.values])
 
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_mparams.txt", "w")
+txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/MHVE_Fef_ZN_mparams.txt", "w")
 content = str(m.params)
 txt_file.write("".join(content) + "\n")
 txt_file.close()
