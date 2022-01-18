@@ -379,7 +379,7 @@ def cross_section_muN(T, Enu, mu_muB): #mu_muB = mu / muB
 
 def cross_section_mue(Te,Enu, mu_muB): # T = Ei
     #new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/T - 1/(Enu*1e3) + T/(4*Enu**2)*1e-6) * Zeff * mu_muB2
-    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/Te - 1/(Enu*1e3)) * Z_eff(Te) * mu_muB2**2
+    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/Te - 1/(Enu*1e3)) * Z_eff(Te) * mu_muB**2
     dsigmadT = new
     return dsigmadT
 
