@@ -447,42 +447,23 @@ def differential_events_flux_SMe(T):
         iint.append( cross_section_SMe(T,EE[i])  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
-'mu'
-def differential_events_flux_muN(T, mu2=0.):
+'MM'
+def differential_events_flux_muN(T, mu=0.):
     nsteps = 100
     Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append(cross_section_muN(T,EE[i],mu2) * flux_total(EE[i]))
+        iint.append(cross_section_muN(T,EE[i],mu) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
-def differential_events_flux_mue(T,mu2=0.):
+def differential_events_flux_mue(T,mu=0.):
     nsteps = 1000
     Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append( cross_section_mue(T,EE[i],mu2)  * flux_total(EE[i]))
-    return (integrate.simpson(iint,EE))
-
-'SM + mu'
-def differential_events_flux_SMmuN(T, mu2=0.):
-    nsteps = 100
-    Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
-    EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
-    iint = []
-    for i in range (0,nsteps):
-        iint.append((cross_section_SM_N(T,EE[i])+cross_section_muN(T,EE[i],mu2)) * flux_total(EE[i]))
-    return (integrate.simpson(iint,EE))
-
-def differential_events_flux_SMmue(T,mu2=0.):
-    nsteps = 1000
-    Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
-    EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
-    iint = []
-    for i in range (0,nsteps):
-        iint.append((cross_section_SM_e(T,EE[i]) + cross_section_mue(T,EE[i],mu2))  * flux_total(EE[i]))
+        iint.append( cross_section_mue(T,EE[i],mu)  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 'Scalar'
@@ -506,26 +487,7 @@ def differential_events_flux_se(T,gs=0 ,ms=0):
         iint.append(cross_section_se(T,EE[i], gs ,ms)  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
-'SM + S'
-
-def differential_events_flux_SMsN(T,gs=0 ,ms=0):
-    nsteps = 100
-    Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
-    EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
-    iint = []
-    for i in range (0,nsteps):
-        iint.append((cross_section_SM_N(T,EE[i]) + cross_section_sN(T,EE[i], gs,ms)) * flux_total(EE[i]))
-    return (integrate.simpson(iint,EE))
-
-def differential_events_flux_SMse(T, gs=0 ,ms=0):
-    nsteps = 1000
-    Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
-    EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
-    iint = []
-    for i in range (0,nsteps):
-        iint.append((cross_section_SM_e(T,EE[i]) + cross_section_se(T,EE[i],gs,ms)) * flux_total(EE[i]))
-    return (integrate.simpson(iint,EE))
-
+'Vectorial'
 
 def differential_events_flux_ZN(T, gz=0 ,mz=0):
     nsteps = 1000
@@ -545,26 +507,6 @@ def differential_events_flux_Ze(T,gz=0 ,mz=0):
         iint.append(cross_section_Ze(T,EE[i],gz,mz) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
-'SM + Z'
-
-def differential_events_flux_SMZN(T,gz=0 ,mz=0):
-    nsteps = 1000
-    Emin = 1/2 * (T + np.sqrt(T**2 + 2*T*M)) * 1e-3 #MeV
-    EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
-    iint = []
-    for i in range (0,nsteps):
-        iint.append((cross_section_SM_N(T,EE[i]) + cross_section_ZN(T,EE[i], gz,mz)) * flux_total(EE[i]))
-    return (integrate.simpson(iint,EE))
-
-
-def differential_events_flux_SMZe(T, gz=0 ,mz=0):
-    nsteps = 1000
-    Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
-    EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
-    iint = []
-    for i in range (0,nsteps):
-        iint.append((cross_section_SM_e(T,EE[i]) + cross_section_Ze(T,EE[i],gz,mz) ) * flux_total(EE[i]))
-    return (integrate.simpson(iint,EE))
 
 "Binning"
 "Bins of 10eV"
@@ -681,6 +623,9 @@ print(' ')
 #E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("data_release.txt",unpack=True)
 E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/data_release.txt",unpack=True)
 
+cSMe , eSMe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMe_3eV.txt",unpack=True)
+cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_Fef_YBe_3eV.txt",unpack=True)
+
 def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
     Enr = []
     Ei = []
@@ -690,13 +635,12 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
 
     'ind defines the QF, 0-Fef, 1-YBe'
 
-    print('particle',pp)
-
     Eee_thres = 0.003
     Edet_max = 1.51
     #EI_max=15*Edet_max
 
     if pp==0:
+        print('particle',pp)
         T_thres = fncEee_QF(Eee_thres, ind)
         #T_max = 15*Edet_max/QF(EI_max,ind)
         T_max = 2*(8.*1e3)**2/(M+2*(8.*1e3)) #2*(Enu_max*1e3)**2/(M+2*(Enu_max*1e3))
@@ -707,23 +651,19 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
             Ei.append(tnr*QF(tnr,ind))
             #dNdx.append(normalization *(differential_events_flux_SMN(tnr)))
             #dNdx.append(normalization *(differential_events_flux_muN(tnr, gg)))
-            #dNdx.append(normalization *(differential_events_flux_ZN(tnr, gg,mm)))
-            'SM + BSM'
-            #dNdx.append(normalization *(differential_events_flux_SMmuN(tnr, gg)))
-            #dNdx.append(normalization *(differential_events_flux_SMsN(tnr, gg,mm)))
-            dNdx.append(normalization *(differential_events_flux_SMZN(tnr, gg,mm)))
+            dNdx.append(normalization *(differential_events_flux_ZN(tnr, gg,mm)))
+            #dNdx.append(normalization *(differential_events_flux_sN(tnr, gg,mm)))
+
     elif pp==1:
+        print('particle',pp)
         T_max = 15*Edet_max #2*(Enu_max*1e3)**2/(me*1e3)
-        Ei = np.linspace(Eee_thres, T_max, num=5000, endpoint=True, dtype=float)
+        Ei = np.linspace(Eee_thres, T_max, num=500, endpoint=True, dtype=float)
         Enr = Ei
         for x in Ei:
             #dNdx.append(normalization *(differential_events_flux_SMe(x)))
             #dNdx.append(normalization *(differential_events_flux_mue(x, gg)))
-            #dNdx.append(normalization *(differential_events_flux_Ze(x, gg,mm)))
-            'SM + BSM'
-            #dNdx.append(normalization *(differential_events_flux_SMmue(x, gg)))
-            #dNdx.append(normalization *(differential_events_flux_SMse(x, gg,mm)))
-            dNdx.append(normalization *(differential_events_flux_SMZe(x, gg,mm)))
+            dNdx.append(normalization *(differential_events_flux_Ze(x, gg,mm)))
+            #dNdx.append(normalization *(differential_events_flux_se(x, gg,mm)))
     else:
         print('no particle identified')
         exit()
@@ -733,8 +673,6 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
     tbin=[]
     centrebin=[]
 
-    events_N=[]
-    events_e=[]
     events=[]
     for j in range(0,len(binss)-1):
         c = centre[j]
@@ -742,8 +680,6 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
         t1 = binss[j]
         t2 = binss[j+1]
 
-        #dNdT_res_N= []
-        #dNdT_res_e= []
         dNdT_res= []
         for i in range(0,len(Ei)):
             sigma = E_resolution(Ei[i])
@@ -751,15 +687,9 @@ def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
             intgauss_res = AA* 1/2 *(math.erf((t2 - Ei[i])/(np.sqrt(2)*sigma)) - math.erf((t1 - Ei[i])/(np.sqrt(2)*sigma)))
 
             dNdT_res.append(intgauss_res * dNdx[i])
-            #dNdT_res_N.append(intgauss_res * dNdx_N[i])
-            #dNdT_res_e.append(intgauss_res * dNdx_e[i])
 
         events.append(integrate.simpson(dNdT_res, Enr))
         dNdT_res.clear()
-        #events_e.append(np.trapz(dNdT_res_e, x=Ei))
-        #events_interval_obs.append(events_N[j] + events_e[j])
-        #dNdT_res_N.clear()
-        #dNdT_res_e.clear()
 
     'Above 0.2keVee'
     Eion_bin = [] # > 0.2keVee
@@ -818,7 +748,13 @@ def fcn_np(par):
     pp = 0 # N
     ind = 0 #Fef
 
-    centre, events = fnc_events_MHVE(pp, ind, par[7],par[8])
+    centre, events_eN = fnc_events_MHVE(pp, ind, par[7],par[8])
+
+    events=[]
+    for i in range(0,len(cSMe)):
+        #events.append(eSMe[i] + events_eN[i])
+        events.append(eSMN_Fef[i] + events_eN[i])
+        #events.append(eSMN_YBe[i] + events_eN[i])
 
     #events = []
     #for i in range(0,len(events_NOQw)):
