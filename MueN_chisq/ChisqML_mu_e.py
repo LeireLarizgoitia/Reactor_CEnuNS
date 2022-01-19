@@ -897,7 +897,7 @@ m.limits['a_mu'] = (1e-12,1e-9)
 print('MIGRAD Run')
 #print(m.migrad() )  # run optimiser
 
-resum = m.simplex()#.migrad() #m.migrad()
+resum = m.migrad() #m.migrad() #m.simplex()
 
 #print(resum)
 
