@@ -624,7 +624,7 @@ print(' ')
 E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/data_release.txt",unpack=True)
 
 cSMe , eSMe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMe_3eV.txt",unpack=True)
-cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_3eV.txt",unpack=True)
+cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_Fef_YBe_3eV.txt",unpack=True)
 
 def fnc_events_MHVE(pp=0,ind=0, gg=0. ,mm=0., parsys=[1.]):
     Enr = []
