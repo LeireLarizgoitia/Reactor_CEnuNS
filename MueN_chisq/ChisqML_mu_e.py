@@ -458,7 +458,7 @@ def differential_events_flux_muN(T, mu=0.):
     return (integrate.simpson(iint,EE))
 
 def differential_events_flux_mue(T,mu=0.):
-    nsteps = 1000
+    nsteps = 100
     Emin = 1/2* (T + np.sqrt(T**2 + 2*T*(me*1e3))) * 1e-3 #MeV
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
@@ -764,6 +764,8 @@ def fcn_np(par):
     events=[]
     for i in range(0,len(cSMe)):
         events.append(eSMe[i] + events_eN[i])
+        #events.append(eSMN_Fef[i] + events_eN[i])
+        #events.append(eSMN_YBe[i] + events_eN[i])
 
     #events = []
     #for i in range(0,len(events_NOQw)):
