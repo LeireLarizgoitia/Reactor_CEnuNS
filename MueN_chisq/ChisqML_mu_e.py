@@ -479,7 +479,6 @@ def differential_events_flux_se(T,gs=0 ,ms=0,qse=1.,qsnu=1.):
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        EE[i] = Emin + step*i
         iint.append(cross_section_se(T,EE[i], gs ,ms,qse,qsnu)  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
@@ -782,7 +781,7 @@ def fcn_np(par):
 
     events=[]
     for i in range(0,len(cSMe)):
-        events.append(eSMN_Fef[i] + eSMe[i] + events_e[i]) #"Leptonic - Fef"
+        events.append(eSMN_Fef[i] + eSMe[i] + 0*events_e[i]) #"Leptonic - Fef"
         #events.append(eSMN_YBe[i] + eSMe[i] + events_e[i]) #"Leptonic - YBe"
 
         #events.append(eSMe[i] + eSMN_Fef[i] + events_e[i] + events_N[i]) "Universal or BL - Fef"
@@ -842,7 +841,8 @@ m.limits['Bn'] = (0.0,None)
 m.limits['Cn'] = (0.0,None)
 m.limits['aM_prior'] = (0.0,1.5)
 
-m.limits['a_mu'] = (1e-11,1e-9)
+#m.limits['a_mu'] = (1e-11,1e-9)
+m.fixed['a_mu'] = True
 
 #m.limits['a_norm'] = (0.0,5)
 #m.limits['a_res'] = (0.0,None)
@@ -880,10 +880,10 @@ chisq_ML = fcn_np(m.values)
 chisqndf = fcn_np(m.values) / (130-len(m.params))
 print('chi2/ndf  min: ' , chisqndf)
 
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_e.txt', np.c_[chisq_ML,chisqndf])
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_e.txt', np.c_[m.values])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_SMe.txt', np.c_[chisq_ML,chisqndf])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_SMe.txt', np.c_[m.values])
 
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_mparams.txt", "w")
+txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_SMe_mparams.txt", "w")
 content = str(m.params)
 txt_file.write("".join(content) + "\n")
 txt_file.close()
