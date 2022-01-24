@@ -480,7 +480,6 @@ def differential_events_flux_se(T,gs=0 ,ms=0,qse=1.,qsnu=1.):
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        EE[i] = Emin + step*i
         iint.append(cross_section_se(T,EE[i], gs ,ms,qse,qsnu)  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
