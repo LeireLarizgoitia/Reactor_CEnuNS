@@ -792,7 +792,7 @@ def fcn_np(par):
     'MODELS' #[Universal, Leptonic]
     #ind = 0 #Fef (leptonic case has no QF)
 
-    centre_e, events_e = fnc_events_MHVE_e(par[7])
+    centre_e, emue = fnc_events_MHVE_e(par[7])
     #centre_N, events_N = fnc_events_MHVE_N(ind, par[7])
 
     events=[]
@@ -879,7 +879,7 @@ m.limits['a_mu'] = (1e-12,1e-8)
 print('MIGRAD Run')
 #print(m.migrad() )  # run optimiser
 
-resum = m.migrad() #m.migrad() #m.simplex()
+resum = m.migrad() #m.simplex()
 
 #print(resum)
 
