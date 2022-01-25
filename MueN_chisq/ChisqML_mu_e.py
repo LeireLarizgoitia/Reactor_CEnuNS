@@ -792,7 +792,9 @@ def fcn_np(par):
     'MODELS' #[Universal, Leptonic]
     #ind = 0 #Fef (leptonic case has no QF)
 
-    centre_e, emue = fnc_events_MHVE_e(par[7])
+    mumuB = par[7]*1e-10
+
+    centre_e, emue = fnc_events_MHVE_e(mumuB)
     #centre_N, events_N = fnc_events_MHVE_N(ind, par[7])
 
     events=[]
@@ -854,7 +856,7 @@ fcn_np.errordef = 1. #Minuit.LIKELIHOOD
 
 #print(describe(fcn_np_nosyst_NSI))
 
-m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,1e-10) ,
+m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.0,1.0) ,
            name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_mu')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
 
 m.limits['hL1'] = (0.0,150.) #(75.0,150)
@@ -865,7 +867,7 @@ m.limits['Bn'] = (0.0,None)
 m.limits['Cn'] = (0.0,None)
 m.limits['aM_prior'] = (0.0,1.5)
 
-m.limits['a_mu'] = (1e-12,1e-8)
+m.limits['a_mu'] = (1e-1,1e1) #(1e-12,1e-8)
 #m.fixed['a_mu'] = True
 
 #m.limits['a_norm'] = (0.0,5)
@@ -906,10 +908,10 @@ print('chi2/ndf  min: ' , chisqndf)
 
 print(m.values)
 
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_mue.txt', np.c_[chisq_ML,chisqndf])
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_mue.txt', np.c_[m.values])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_mue_scale.txt', np.c_[chisq_ML,chisqndf])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_mue_scale.txt', np.c_[m.values])
 
-txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_mparams.txt", "w")
+txt_file = open("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MHVE_Fef_mue_mparams_scale.txt", "w")
 content = str(m.params)
 txt_file.write("".join(content) + "\n")
 txt_file.close()
