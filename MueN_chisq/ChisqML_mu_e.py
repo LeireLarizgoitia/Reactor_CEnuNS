@@ -5,14 +5,14 @@
 
 from __future__ import division
 
-#import matplotlib
-#matplotlib.rcParams['text.usetex'] = True
-#from matplotlib import pyplot as plt
-#plt.rcParams.update({'font.size': 20})
-#import matplotlib.colors as mcolors
-#import matplotlib.ticker as mtick
-#from matplotlib.ticker import MultipleLocator
-#from matplotlib.ticker import FormatStrFormatter
+import matplotlib
+matplotlib.rcParams['text.usetex'] = True
+from matplotlib import pyplot as plt
+plt.rcParams.update({'font.size': 20})
+import matplotlib.colors as mcolors
+import matplotlib.ticker as mtick
+from matplotlib.ticker import MultipleLocator
+from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 import math
 import scipy.integrate as integrate
@@ -383,6 +383,18 @@ def cross_section_mue(Te,Enu, mu_muB): # T = Ei
     dsigmadT = new
     return dsigmadT
 
+def cross_section_fact_muN(T, Enu): #mu_muB = mu / muB
+    Q2= 2 *Enu**2 * M * T *1e-6 /(Enu**2 - Enu*T*1e-3) #MeV ^2
+    Fem = 1. #Fem(Q2) electromagnetic form factor approximated to 1
+    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/T - 1/(Enu*1e3)) * Z**2 * (F(Q2,A))**2
+    dsigmadT = new
+    return dsigmadT
+
+def cross_section_fact_mue(Te,Enu): # T = Ei
+    new = np.pi*alpha_em**2/(me*1e3)**2 *(hbar_c_ke)**2 * (1/Te - 1/(Enu*1e3)) * Z_eff(Te)
+    dsigmadT = new
+    return dsigmadT
+
 'Scalar'
 def cross_section_sN(T,Enu, gs ,ms, qsq,qsnu):
     gs2 = gs**2
@@ -440,7 +452,7 @@ def differential_events_flux_SMe(T):
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append( cross_section_SMe(T,EE[i])  * flux_total(EE[i]))
+        iint.append( cross_section_SM_e(T,EE[i])  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 'MM'
@@ -451,6 +463,7 @@ def differential_events_flux_muN(T, mu=0.):
     iint = []
     for i in range (0,nsteps):
         iint.append(cross_section_muN(T,EE[i],mu) * flux_total(EE[i]))
+        #iint.append(cross_section_fact_muN(T,EE[i]) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 def differential_events_flux_mue(T,mu=0.):
@@ -460,6 +473,7 @@ def differential_events_flux_mue(T,mu=0.):
     iint = []
     for i in range (0,nsteps):
         iint.append( cross_section_mue(T,EE[i],mu)  * flux_total(EE[i]))
+        #iint.append( cross_section_fact_mue(T,EE[i])  * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 'Scalar'
@@ -615,11 +629,13 @@ def dQdEI(E,ind, aa=1.):
 "MAIN PART"
 print(' ')
 
-#E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("data_release.txt",unpack=True)
 E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/data_release.txt",unpack=True)
 
-cSMe , eSMe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMe_3eV.txt",unpack=True)
-cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_Fef_YBe_3eV.txt",unpack=True)
+cSMe , eSMe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMe.txt",unpack=True)
+cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_Fef_YBe.txt",unpack=True)
+
+#cmue , emue = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_fact_mue.txt",unpack=True)
+#cmuN , emuN_Fef, emuN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_fact_muN_Fef_YBe.txt",unpack=True)
 
 def fnc_events_MHVE_N(ind=0, gg=0., parsys=[1.]):
     Enr = []
@@ -642,7 +658,7 @@ def fnc_events_MHVE_N(ind=0, gg=0., parsys=[1.]):
         #dNdx.append(normalization *(differential_events_flux_SMN(tnr)))
         dNdx.append(normalization *(differential_events_flux_muN(tnr, gg)))
 
-    binss , centre = binning(Eee_thres, Edet_max)
+    binss , centre = binning(0.0, Edet_max)
 
     tbin=[]
     centrebin=[]
@@ -694,7 +710,7 @@ def fnc_events_MHVE_e(gg=0., parsys=[1.]):
         #dNdx.append(normalization *(differential_events_flux_SMe(x)))
         dNdx.append(normalization *(differential_events_flux_mue(x, gg)))
 
-    binss , centre = binning(Eee_thres, Edet_max)
+    binss , centre = binning(0.0, Edet_max)
 
     tbin=[]
     centrebin=[]
@@ -774,18 +790,19 @@ def fcn_np(par):
     wM = sigma_n
 
     'MODELS' #[Universal, Leptonic]
-    ind = 0 #Fef (leptonic case has no QF)
+    #ind = 0 #Fef (leptonic case has no QF)
 
     centre_e, events_e = fnc_events_MHVE_e(par[7])
     #centre_N, events_N = fnc_events_MHVE_N(ind, par[7])
 
     events=[]
     for i in range(0,len(cSMe)):
-        events.append(eSMN_Fef[i] + eSMe[i] + events_e[i]) #"Leptonic - Fef"
-        #events.append(eSMN_YBe[i] + eSMe[i] + events_e[i]) #"Leptonic - YBe"
+        events.append(eSMN_Fef[i] + eSMe[i] + emue[i])
+        #events.append(eSMN_Fef[i] + eSMe[i] + emue[i]*(par[7])**2)
+        #events.append(eSMN_YBe[i] + eSMe[i] + emue[i]*(par[7])**2)
 
-        #events.append(eSMe[i] + eSMN_Fef[i] + events_e[i] + events_N[i]) "Universal or BL - Fef"
-        #events.append(eSMe[i] + eSMN_YBe[i] + events_e[i] + events_N[i]) "Universal or BL - YBe"
+        #events.append(eSMe[i] + eSMN_Fef[i] + emue[i]*(par[7])**2 + emuN_Fef[i]*(par[7])**2) #"Universal or BL - Fef"
+        #events.append(eSMe[i] + eSMN_YBe[i] + emue[i]*(par[7])**2 + emuN_YBe[i]*(par[7])**2) #"Universal or BL - YBe"
 
     mu_est = []
     mu_est =fnc_fitON(E_ion,par_L1, aM_prior, par_exp, wM, events)
@@ -796,6 +813,13 @@ def fcn_np(par):
 
     chi2 = sum_tot + ((aM_prior - 1.)**2 / sigma_aM**2) #+ ((norm_sys - alpha_BF[0])**2 / sigma_a[0]**2) + ((par_sys[0] - alpha_BF[1])**2 / sigma_a[1]**2) + ((par_sys[1] - alpha_BF[2])**2 / sigma_a[2]**2)
     return chi2
+
+#centre_e, events_e = fnc_events_MHVE_e()
+#centre_N, events_N = fnc_events_MHVE_N(0)
+#centre_Ny, events_Ny = fnc_events_MHVE_N(1)
+
+#np.savetxt('Counts_fact_mue.txt', np.c_[centre_e,events_e])
+#np.savetxt('Counts_fact_muN_Fef_YBe.txt', np.c_[centre_N,events_N, events_Ny])
 
 'Systematics'
 
@@ -830,7 +854,7 @@ fcn_np.errordef = 1. #Minuit.LIKELIHOOD
 
 #print(describe(fcn_np_nosyst_NSI))
 
-m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,0.) ,
+m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,1e-10) ,
            name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_mu')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
 
 m.limits['hL1'] = (0.0,150.) #(75.0,150)
@@ -877,8 +901,10 @@ amu_ML = m.values[7]
 print(m.params)
 
 chisq_ML = fcn_np(m.values)
-chisqndf = fcn_np(m.values) / (130-len(m.params))
+chisqndf = chisq_ML / (130-len(m.params))
 print('chi2/ndf  min: ' , chisqndf)
+
+print(m.values)
 
 np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/chisq_ML_mue.txt', np.c_[chisq_ML,chisqndf])
 np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/MueN_chisq/MLvalues_mue.txt', np.c_[m.values])
