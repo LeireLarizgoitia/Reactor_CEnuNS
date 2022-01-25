@@ -615,11 +615,10 @@ def dQdEI(E,ind, aa=1.):
 "MAIN PART"
 print(' ')
 
-#E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("data_release.txt",unpack=True)
 E_ion, counts_ON, counts_ON_err, counts_OFF, counts_OFF_err = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/data_release.txt",unpack=True)
 
-cSMe , eSMe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMe_3eV.txt",unpack=True)
-cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_Fef_YBe_3eV.txt",unpack=True)
+cSMe , eSMe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMe.txt",unpack=True)
+cSMN , eSMN_Fef, eSMN_YBe = np.loadtxt("/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/Counts_SMN_Fef_YBe.txt",unpack=True)
 
 def fnc_events_MHVE_N(ind=0, qq=1.,qnu=1., gg=0.,mm=0., parsys=[1.]):
     Enr = []
@@ -641,7 +640,7 @@ def fnc_events_MHVE_N(ind=0, qq=1.,qnu=1., gg=0.,mm=0., parsys=[1.]):
         Ei.append(tnr*QF(tnr,ind))
         dNdx.append(normalization *(differential_events_flux_sN(tnr, gg,mm,qq,qnu)))
 
-    binss , centre = binning(Eee_thres, Edet_max)
+    binss , centre = binning(0.0, Edet_max)
 
     tbin=[]
     centrebin=[]
@@ -692,7 +691,7 @@ def fnc_events_MHVE_e(qe=1., qnu=1., gg=0.,mm=0., parsys=[1.]):
     for x in Ei:
         dNdx.append(normalization *(differential_events_flux_se(x, gg,mm,qe,qnu)))
 
-    binss , centre = binning(Eee_thres, Edet_max)
+    binss , centre = binning(0.0, Edet_max)
 
     tbin=[]
     centrebin=[]
@@ -780,13 +779,15 @@ def fcn_np(par):
     qe = 1. #[1,1]
     qnu = 1. #[1,1]
 
-    centre_e, events_e = fnc_events_MHVE_e(qe,qnu, par[7],par[8])
+    par_g = par[7]*1e-5
+
+    centre_e, ese = fnc_events_MHVE_e(qe,qnu, par_g,par[8])
     #centre_N, events_N = fnc_events_MHVE_N(ind,qq,qnu, par[7],par[8])
 
     events=[]
     for i in range(0,len(cSMe)):
-        events.append(eSMN_Fef[i] + eSMe[i] + events_e[i]) #"Leptonic - Fef"
-        #events.append(eSMN_YBe[i] + eSMe[i] + events_e[i]) #"Leptonic - YBe"
+        events.append(eSMN_Fef[i] + eSMe[i] + ese[i]) #"Leptonic - Fef"
+        #events.append(eSMN_YBe[i] + eSMe[i] + ese[i]) #"Leptonic - YBe"
 
         #events.append(eSMe[i] + eSMN_Fef[i] + events_e[i] + events_N[i]) "Universal or BL - Fef"
         #events.append(eSMe[i] + eSMN_YBe[i] + events_e[i] + events_N[i]) "Universal or BL - YBe"
@@ -834,10 +835,10 @@ fcn_np.errordef = 1. #Minuit.LIKELIHOOD
 
 #print(describe(fcn_np_nosyst_NSI))
 
-m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,0.,0.) ,
+m = Minuit(fcn_np, (100, 1.297, 0.1, 20., 150, 4, 1.,1.0,1.0) ,
            name=('hL1', 'cL1', 'wL1', 'An', 'Bn', 'Cn', 'aM_prior','a_g','a_m')) #,'a_norm','a_res','a_QF')) #start_1,start_1,start_1)
 
-m.limits['hL1'] = (60.0,200) #(75.0,150)
+m.limits['hL1'] = (0.0,150) #(75.0,150)
 m.limits['cL1'] = (0.5,1.5)
 m.limits['wL1'] = (0.0,4)
 m.limits['An'] = (0.0,None)
@@ -845,7 +846,7 @@ m.limits['Bn'] = (0.0,None)
 m.limits['Cn'] = (0.0,None)
 m.limits['aM_prior'] = (0.0,1.5)
 
-m.limits['a_g'] = (1e-7,1e-4)
+m.limits['a_g'] = (1e-2,1e1) #in 1e-5 scale
 m.limits['a_m'] = (1e-1,1e3)
 
 #m.fixed['a_mu'] = True
@@ -861,7 +862,7 @@ m.limits['a_m'] = (1e-1,1e3)
 print('MIGRAD Run')
 #print(m.migrad() )  # run optimiser
 
-resum = m.simplex()#.migrad() #m.migrad()
+resum = m.migrad()
 
 #print(resum)
 
@@ -884,7 +885,7 @@ am_ML = m.values[8]
 print(m.params)
 
 chisq_ML = fcn_np(m.values)
-chisqndf = fcn_np(m.values) / (130-len(m.params))
+chisqndf = chisq_ML / (130-len(m.params))
 print('chi2/ndf  min: ' , chisqndf)
 
 np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/SeN_chisq/chisq_ML_e.txt', np.c_[chisq_ML,chisqndf])
