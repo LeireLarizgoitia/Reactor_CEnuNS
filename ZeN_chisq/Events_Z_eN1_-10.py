@@ -519,7 +519,9 @@ def differential_events_flux_vN(T, gz=0 ,mz=0, qvq=1., qvnu=1.):
     EE = np.linspace(Emin,Enu_max,num=nsteps, endpoint=True)
     iint = []
     for i in range (0,nsteps):
-        iint.append(cross_section_vN(T,EE[i],gz,mz,qvq,qvnu) * flux_total(EE[i]))
+        #iint.append(cross_section_vN(T,EE[i],gz,mz,qvq,qvnu) * flux_total(EE[i]))
+        iint.append(cross_section_fact1_vN(T,EE[i],gz,mz,qvq,qvnu) * flux_total(EE[i]))
+        #iint.append(cross_section_fact2_vN(T,EE[i],gz,mz,qvq,qvnu) * flux_total(EE[i]))
     return (integrate.simpson(iint,EE))
 
 def differential_events_flux_ve(T,gz=0 ,mz=0,qve=1.,qvnu=1.):
@@ -668,7 +670,7 @@ def fnc_events_MHVE_N(ind=0, qq=1.,qnu=1., gg=0.,mm=0., parsys=[1.]):
     Ei=[]
     for tnr in Enr:
         Ei.append(tnr*QF(tnr,ind))
-        dNdx.append(normalization *(differential_events_flux_sN(tnr, gg,mm,qq,qnu)))
+        dNdx.append(normalization *(differential_events_flux_vN(tnr, gg,mm,qq,qnu)))
 
     binss , centre = binning(0.0, Edet_max)
 
@@ -719,7 +721,7 @@ def fnc_events_MHVE_e(qe=1., qnu=1., gg=0.,mm=0., parsys=[1.]):
     Ei = np.linspace(Eee_thres, T_max, num=2000, endpoint=True, dtype=float)
     Enr = Ei
     for x in Ei:
-        dNdx.append(normalization *(differential_events_flux_se(x, gg,mm,qe,qnu)))
+        dNdx.append(normalization *(differential_events_flux_ve(x, gg,mm,qe,qnu)))
 
     binss , centre = binning(0.0, Edet_max)
 
