@@ -716,7 +716,7 @@ def fnc_events_MHVE_e(qe=1., qnu=1., gg=0.,mm=0., parsys=[1.]):
     #EI_max=15*Edet_max
 
     T_max = 15*Edet_max #2*(Enu_max*1e3)**2/(me*1e3)
-    Ei = np.linspace(Eee_thres, T_max, num=200, endpoint=True, dtype=float)
+    Ei = np.linspace(Eee_thres, T_max, num=2000, endpoint=True, dtype=float)
     Enr = Ei
     for x in Ei:
         dNdx.append(normalization *(differential_events_flux_se(x, gg,mm,qe,qnu)))

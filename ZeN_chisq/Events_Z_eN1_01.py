@@ -833,7 +833,7 @@ def fcn_np(par):
     return chi2
 
 #mlim= [1e-1,1e0,1e1,1e2,1e3,1e4,1e5,1e6]
-mlim= [1e4,1e5]
+mlim= [1e0,1e1]
 mscan = 10
 mm=[]
 for i in range(0,1):
@@ -869,7 +869,7 @@ for i in range(0,len(mm)):
         m_list.append(mm[i])
         c_list.append(c_m[j])
         ese_list.append(ese_m[j])
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/Events_ve1_m_45.txt', np.c_[m_list,c_list,ese_list])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/Events_ve1_m_01.txt', np.c_[m_list,c_list,ese_list])
 
 """
 'Systematics'
