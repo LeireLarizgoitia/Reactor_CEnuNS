@@ -772,5 +772,5 @@ for i in range(0,len(mm)):
         print(mm[i],c_m[j],ese_m[j])
         print(mm[i],c_m2[j],ese_m2[j])
 
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/Events_ve1_m_45_2.txt', np.c_[m_list,c_list,ese_list])
-np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/Events_ve2_m_45_2.txt', np.c_[m_list,c_list,ese_list2])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/Events_ve1_m_45_1.txt', np.c_[m_list,c_list,ese_list])
+np.savetxt('/scratch/llarizgoitia/Reactor/Reactor_CEnuNS/ZeN_chisq/Events_ve2_m_45_1.txt', np.c_[m_list,c_list,ese_list2])
